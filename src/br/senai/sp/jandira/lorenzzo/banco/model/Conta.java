@@ -43,22 +43,34 @@ public class Conta {
         this.tipoConta = tipoConta;
     }
 
-    public void sacar(double valor) {
-        if (saldo > valor) {
+    public boolean sacar(double valor) {
+        if (saldo > valor && valor > 0) {
             saldo -= valor;
-            System.out.println("SAQUE REALIZADO COM SUCESSO!");
+            System.out.printf("\nSacando R$ %s da conta %s.\n",valor,cliente.getNome());
+            System.out.printf("Saldo atual: R$ %s\n",saldo);
+            return true;
         } else {
             System.out.println("SALDO INSUFICIENTE!");
+            return false;
         }
     }
-
     public void depositar(double valor) {
-        if (valor > 0) {
+        if (valor > 0 ) {
             this.saldo += valor;
-            System.out.println("DEPOSITO REALIZADO COM SUCESSO");
+            System.out.printf("\nDepositando R$ %s na conta %s.\n",valor,cliente.getNome());
+            System.out.printf("Saldo atual: R$ %s\n",saldo);
         } else {
             System.out.println("DEPOSITO INVÁLIDO");
 
+        }
+    }
+    public void transferir(double valor,Conta contaDestino){
+        System.out.printf("\nTransferindo R$ %s da conta %s para a conta %s.\n",valor,cliente.getNome(),contaDestino.getCliente().getNome());
+        if (sacar(valor))
+        {
+            contaDestino.depositar(valor);
+        } else{
+            System.out.printf("\nA transferência não ocorreu por falta de saldo na conta");
         }
     }
 }
